@@ -1,26 +1,22 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true
+    env: {
+        browser: true,
+        es2021: true,
+        node: true
     },
-    "extends": [
-        "eslint:recommended",
-    ],
-    "globals": {
-            "Atomics": "readonly",
-            "sharedArrayBuffer": "readonly",
-            "wp": "readonly"
+    extends: ["eslint:recommended"],
+    globals: {
+        Atomics: "readonly",
+        sharedArrayBuffer: "readonly",
+        wp: "readonly"
     },
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
         },
-        "ecmaVersion": 12,
-        "sourceType": "module"
+        ecmaVersion: 12,
+        sourceType: "module"
     },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-    }
+    plugins: ["react"],
+    rules: {}
 };
