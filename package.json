@@ -12,7 +12,13 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run lint && npm run checkFormat"
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "linters": {
+            "src/**/*.js": "eslint",
+            "**/*.{js,json,css,scss": ["prettier --write", "git add"]
         }
     },
     "author": "",
