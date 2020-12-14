@@ -1,8 +1,8 @@
 import "./styles.editor.scss";
 
-const { registerBlockType } = "@wordpress/blocks";
-const { __ } = "@wordpress/i18n";
-
+const { registerBlockType } = wp.blocks;
+const { __ } = wp.i18n;
+console.log('find this test');
 registerBlockType("cp-blocks/secondblock", {
     title: __("Second Block", "cp-blocks"),
     description: __("Our first block", "cp-blocks"),

@@ -8,7 +8,7 @@ registerBlockType("cp-blocks/firstblock", {
     icon: {
         src: "admin-network"
     },
-        keywords: [__("photo", "cp-blocks"), __("hero", "cp-blocks")],
+    keywords: [__("photo", "cp-blocks"), __("hero", "cp-blocks")],
     edit: function () {
         return <p>Editor</p>;
     },
