@@ -1,0 +1,39 @@
+.wp-block-cp-blocks-team-members {
+	display: block;
+	margin-left: 0px;
+	margin-right:0px;
+
+	@for $i from 1 through 6 {
+		&.has-#{$i}-columns {
+			[data-type="cp-blocks/team-member"]{
+				width: calc(100%/#{$i} - 20px);
+				
+			}
+		}
+	}
+		
+	> .block-editor-inner-blocks > .block-editor-block-list__layout {
+		display:flex;
+		flex-wrap:wrap;
+
+		.block-list-appender {
+			width:100%;
+		}
+		
+		> [data-type="cp-blocks/team-member"]{
+			max-width: none;
+			margin-left: 0;
+			margin-right:0;
+		}
+	 }
+	
+	.wp-block-cp-blocks-team-member {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0;
+		width: auto!important;
+	}
+
+
+}

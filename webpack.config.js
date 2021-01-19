@@ -2,7 +2,10 @@ const autoprefixer = require("autoprefixer");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const CleanPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ESLintPlugin  = require('eslint-webpack-plugin');
+const webpack       = require('webpack');
+const path          = require('path');
 
 module.exports = (env, argv) => {
     function isDevelopment() {
@@ -14,12 +17,15 @@ module.exports = (env, argv) => {
             script: "./src/script.js"
         },
         output: {
-            filename: "[name].js"
+            filename: "[name].js",
+            path: path.resolve(__dirname, 'dist')
         },
         optimization: {
             minimizer: [
                 new TerserPlugin({
-                    sourceMap: true
+                    terserOptions: {
+                        sourceMap: true    
+                    }
                 }),
                 new OptimizeCSSAssetsPlugin({
                     cssProcessorOptions: {
@@ -32,7 +38,8 @@ module.exports = (env, argv) => {
             ]
         },
         plugins: [
-            new CleanPlugin(),
+            new CleanWebpackPlugin(),
+            new ESLintPlugin(),
             new MiniCSSExtractPlugin({
                 chunkFilename: "[id.css",
                 filename: chunkData => {
@@ -40,6 +47,9 @@ module.exports = (env, argv) => {
                         ? "style.css"
                         : "[name].css";
                 }
+            }),
+            new webpack.ProvidePlugin({
+                process: 'process/browser',
             })
         ],
         devtool: isDevelopment() ? "cheap-module-source-map" : "source-map",
@@ -52,6 +62,7 @@ module.exports = (env, argv) => {
                         {
                             loader: "babel-loader",
                             options: {
+                                plugins: ["@babel/plugin-proposal-class-properties"],
                                 presets: [
                                     "@babel/preset-env",
                                     [
@@ -65,7 +76,6 @@ module.exports = (env, argv) => {
                                 ]
                             }
                         },
-                        "eslint-loader"
                     ]
                 },
                 {
@@ -76,7 +86,9 @@ module.exports = (env, argv) => {
                         {
                             loader: "postcss-loader",
                             options: {
-                                plugins: [autoprefixer()]
+                                postcssOptions: {
+                                    plugins: [autoprefixer()]
+                                }
                             }
                         },
                         "sass-loader"
@@ -86,8 +98,14 @@ module.exports = (env, argv) => {
         },
         externals: {
             jquery: "jQuery",
+            lodash: "lodash",
             "@wordpress/blocks": ["wp", "blocks"],
-            "@wordpress/i18n": ["wp", "i18n"]
+            "@wordpress/i18n": ["wp", "i18n"],
+            "@wordpress/block-editor" : ["wp", "blockEditor"],
+            "@wordpress/components" : ["wp", "components"],
+            "@wordpress/element"   : ["wp", "element"],
+            "@wordpress/blob"   : ["wp", "blob"],
+            "@wordpress/data"   : ["wp", "data"],
         }
     };
     return config;

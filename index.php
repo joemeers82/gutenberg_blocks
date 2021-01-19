@@ -1,4 +1,4 @@
- <?php
+  <?php
 /**
  * Plugin Name:     CHECKPOINT GUTENBERG BLOCKS
  * Plugin URI:      Checkpoint.com
@@ -18,6 +18,21 @@ if( !function_exists('add_action' ) ){
 	echo 'You are not allowed to be here';
 	exit;
 }
+
+function cp_blocks_categories($categories, $post ){
+	return array_merge(
+		$categories,
+		array(
+			array(
+				'slug'  => 'cp_blocks-category',
+				'title' => __('CP Blocks Category', 'cp-blocks'),
+				'icon'  => 'wordpress'
+			)
+		)
+	);
+}
+
+add_filter('block_categories', 'cp_blocks_categories', 10,2);
 
 function cp_blocks_register_block_type($block, $options= array() ){
 	register_block_type(
@@ -42,7 +57,7 @@ function cp_blocks_register(){
 	wp_register_script(
 		'cp-blocks-editor-script', 
 		plugins_url('dist/editor.js', __FILE__),
-		array('wp-blocks', 'wp-i18n', 'wp-element')
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor','wp-components', 'lodash', 'wp-blob','wp-data')
 	);
 	
 	wp_register_script(
@@ -64,6 +79,8 @@ function cp_blocks_register(){
 
 	cp_blocks_register_block_type('firstblock');
 	cp_blocks_register_block_type('secondblock');
+	cp_blocks_register_block_type('team-member');
+	cp_blocks_register_block_type('team-members');
 }
 
 add_action('init', 'cp_blocks_register');
