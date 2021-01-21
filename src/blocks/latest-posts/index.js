@@ -11,5 +11,5 @@ registerBlockType('cp-blocks/latest-posts', {
 
 	save() {
 		return null;
-	}
+	},
 });
