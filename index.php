@@ -57,7 +57,7 @@ function cp_blocks_register(){
 	wp_register_script(
 		'cp-blocks-editor-script', 
 		plugins_url('dist/editor.js', __FILE__),
-		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor','wp-components', 'lodash', 'wp-blob','wp-data')
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor','wp-components', 'lodash', 'wp-blob','wp-data','wp-html-entities')
 	);
 	
 	wp_register_script(
@@ -81,6 +81,53 @@ function cp_blocks_register(){
 	cp_blocks_register_block_type('secondblock');
 	cp_blocks_register_block_type('team-member');
 	cp_blocks_register_block_type('team-members');
+	cp_blocks_register_block_type('latest-posts',array(
+		'render_callback' => 'cp_blocks_render_latest_posts_block',
+		'attributes' => array(
+			'numberOfPosts'=> array(
+				'type' => 'number',
+				'default' => 5
+			),
+			'postCategories' => array(
+				'type'=> 'string'
+			)
+		)
+	));
 }
 
 add_action('init', 'cp_blocks_register');
+
+function cp_blocks_render_latest_posts_block( $attributes ) {
+	$args = array(
+		'posts_per_page' => $attributes['numberOfPosts']
+	);
+	if($attributes['postCategories']) {
+		$args['cat'] = $attributes['postCategories'];
+	};
+	$query = new WP_Query($args);
+	$posts = '';
+
+	if($query->have_posts()){
+		$posts .= '<ul class="wp-blocks-cp-blocks-blocks-latest-posts">';
+		while($query->have_posts()){
+			$query->the_post();
+			$posts .= '<li><a href"'.esc_url(get_the_permalink()). '">'. get_the_title().'</a></li>';
+		}
+		$posts .= '</ul>';
+		wp_reset_postdata();
+		return $posts;
+	}
+	else {
+		return '<div>'.__('No Posts Found', 'cp-blocks').'</div>';
+	}
+}
+
+
+
+
+
+
+
+
+
+

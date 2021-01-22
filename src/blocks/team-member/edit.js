@@ -150,7 +150,6 @@ class TeamMemberEdit extends Component {
 	}
 
 	render() {
-		console.log(this.props)
 		const { className, attributes, noticeUI, isSelected } = this.props; 
 		const { title, info, url, alt, id, social } = attributes;
 		const SortableList = SortableContainer(()=>{

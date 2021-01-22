@@ -3,7 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { InnerBlocks, InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, RangeControl } from "@wordpress/components";
 
-console.log(InnerBlocks)
 
 const attributes = {
 	columns: {
