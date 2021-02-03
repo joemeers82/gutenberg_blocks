@@ -19,6 +19,8 @@ if( !function_exists('add_action' ) ){
 	exit;
 }
 
+include_once('src/metabox.php');
+
 function cp_blocks_categories($categories, $post ){
 	return array_merge(
 		$categories,
@@ -49,6 +51,16 @@ function cp_blocks_register_block_type($block, $options= array() ){
 	);
 }
 
+add_action('enqueue_block_editor_assets', 'cp_blocks_enqueue_assets');
+
+function cp_blocks_enqueue_assets(){
+	wp_enqueue_script(
+		'cp-blocks-editor-js',
+		plugins_url('dist/editor_script.js', __FILE__ ),
+		array('wp-data','wp-plugins', 'wp-edit-post','wp-i18n', 'wp-components', 'wp-compose')
+	);
+}
+
 //setup
 define ('CP_BLOCKS_PLUGIN_URL', __FILE__ );
 
@@ -57,7 +69,7 @@ function cp_blocks_register(){
 	wp_register_script(
 		'cp-blocks-editor-script', 
 		plugins_url('dist/editor.js', __FILE__),
-		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor','wp-components', 'lodash', 'wp-blob','wp-data','wp-html-entities')
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-block-editor','wp-components', 'lodash', 'wp-blob','wp-data','wp-html-entities', 'wp-compose')
 	);
 	
 	wp_register_script(
@@ -81,6 +93,7 @@ function cp_blocks_register(){
 	cp_blocks_register_block_type('secondblock');
 	cp_blocks_register_block_type('team-member');
 	cp_blocks_register_block_type('team-members');
+	cp_blocks_register_block_type('redux');
 	cp_blocks_register_block_type('latest-posts',array(
 		'render_callback' => 'cp_blocks_render_latest_posts_block',
 		'attributes' => array(
@@ -93,6 +106,9 @@ function cp_blocks_register(){
 			)
 		)
 	));
+	cp_blocks_register_block_type('todo-list');
+	cp_blocks_register_block_type('todo-list-count');
+	cp_blocks_register_block_type('meta');
 }
 
 add_action('init', 'cp_blocks_register');
@@ -122,7 +138,21 @@ function cp_blocks_render_latest_posts_block( $attributes ) {
 	}
 }
 
+function cp_blocks_register_post_template() {
+	$post_type_object = get_post_type_object('post');
 
+	$post_type_object->template = array(
+		array('cp-blocks/meta'),
+		array('core/paragraph',array(
+			'content' => 'test'
+		)),
+		array('cp-blocks/team-member')
+	);
+	$post_type_object->template_lock = 'insert';
+
+}
+
+add_action('init', 'cp_blocks_register_post_template');
 
 
 

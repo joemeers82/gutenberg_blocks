@@ -14,7 +14,8 @@ module.exports = (env, argv) => {
     var config = {
         entry: {
             editor: "./src/editor.js",
-            script: "./src/script.js"
+            script: "./src/script.js",
+            editor_script: "./src/editor_script.js"
         },
         output: {
             filename: "[name].js",
@@ -107,6 +108,10 @@ module.exports = (env, argv) => {
             "@wordpress/blob"   : ["wp", "blob"],
             "@wordpress/data"   : ["wp", "data"],
             "@wordpress/html-entities"   : ["wp", "htmlEntities"],
+            "@wordpress/compose"         : ["wp", "compose"],
+            "@wordpress/edit-post"         : ["wp", "editPost"],
+            "@wordpress/plugins"         : ["wp", "plugins"],
+
         }
     };
     return config;
