@@ -1,12 +1,12 @@
   <?php
 /**
- * Plugin Name:     CHECKPOINT GUTENBERG BLOCKS
- * Plugin URI:      Checkpoint.com
- * Description:     Gutenberg Blocks for Checkpoint.com
- * Author:          Check Point Digital Marketing
- * Author URI:      Checkpoint.com
+ * Plugin Name:     CP GUTENBERG BLOCKS
+ * Plugin URI:      jmjdev.net
+ * Description:     Gutenberg Blocks for CP
+ * Author:          JMJ
+ * Author URI:      jmjdev.net
  * Text Domain:     cp-blocks
- * Domain Path:     Checkpoint.com
+ * Domain Path:     jmjdev.net
  * Version:         0.1.0
  *
  * @package         CP_Blocks
